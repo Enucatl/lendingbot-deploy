@@ -21,7 +21,7 @@ namespace :digitalocean do
     token = secrets["development"]["digitalocean_token"]
     url = "https://api.digitalocean.com/v2/droplets"
     body = {
-      name: "basketball-ref-challenge.com",
+      name: "galilean-traders",
       region: "ams3",
       size: "512mb",
       image: "ubuntu-14-04-x64",

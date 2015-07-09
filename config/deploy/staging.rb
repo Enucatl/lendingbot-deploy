@@ -4,10 +4,9 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{deploy@example.com}
-role :web, %w{deploy@example.com}
-role :db,  %w{deploy@example.com}
+host = YAML.load_file("config/secrets.yml")["development"]["droplet_ip"]
 
+role :root,  "root@#{host}"
 
 # Extended Server Syntax
 # ======================
@@ -15,7 +14,7 @@ role :db,  %w{deploy@example.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server host, user: 'root', roles: %w{root}
 
 
 # Custom SSH Options

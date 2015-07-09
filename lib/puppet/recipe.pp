@@ -8,6 +8,10 @@ package { 'postgresql-server-dev-all':
   ensure => present,
 }
 
+package { 'npm':
+  ensure => present,
+}
+
 package { 'nodejs':
   ensure => present,
 }
@@ -69,18 +73,18 @@ ufw::allow { "allow-https":
 class { 'ssh::server':
   options => {
     'PasswordAuthentication' => 'no',
-    'PermitRootLogin' => 'no',
-    'AllowUsers' => 'trader@*.dynamic.hispeed.ch trader@pc9689.psi.ch',
+    #'PermitRootLogin' => 'no',
+    #'AllowUsers' => 'trader@*.dynamic.hispeed.ch trader@pc9689.psi.ch',
   },
 }
 
-include apt::unattended_upgrades
+include apt
 
 class { 'postgresql::server':
   require => Class['locales'],
 }
 
-postgresql::server::db { 'basketball_quiz_production':
+postgresql::server::db { 'analysis_db':
   user => 'analysis',
   password => 'analysis',
 }
@@ -108,7 +112,20 @@ vcsrepo { "/home/trader/analysis":
 
 include pyenv
 
-pyenv::compile { 'compile 2.7.9 trader':
-  user => 'trader',
-  python => '2.7.9'
+pyenv::install { 'trader':
+  require => User["trader"]
 }
+
+pyenv::compile { 'compile 2.7.9 trader':
+  user => "trader",
+  python => "2.7.9",
+}
+
+class { 'r': }
+
+r::package { 'rzmq': }
+r::package { 'rjson': }
+r::package { 'xts': }
+r::package { 'TTR': }
+r::package { 'argparse': }
+r::package { 'data.table': }
