@@ -1,14 +1,11 @@
-# config valid only for Capistrano 3.1
-lock '3.2.1'
-
-#set :application, 'my_app_name'
-#set :repo_url, 'git@example.com:me/my_repo.git'
+set :application, 'lendingbot'
+set :repo_url, 'https://github.com/BitBotFactory/poloniexlendingbot.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/my_app'
+set :deploy_to, '/home/matteo/poloniexlendingbot'
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -22,14 +19,22 @@ lock '3.2.1'
 # Default value for :pty is false
 # set :pty, true
 
+set :config_files, %w{default.cfg lendingbot_init.sh}
+set :symlinks, []
+set :executable_config_files, %w{lendingbot_init.sh}
+
 # Default value for :linked_files is []
-# set :linked_files, %w{config/database.yml}
+set :linked_files, %w{config/default.cfg}
 
 # Default value for linked_dirs is []
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{tmp/pids tmp/logs}
 
-# Default value for default_env is {}
-# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+#Default value for default_env is {}
+set :default_env, {
+  path: "/opt/puppetlabs/bin:${PATH}"
+}
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+#
+before "deploy", "deploy:setup_config"

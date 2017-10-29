@@ -1,0 +1,15 @@
+namespace :deploy do
+
+  desc 'Commands for application'
+  %w(start stop restart).each do |command|
+    task command.to_sym do
+      on roles(:app), in: :sequence, wait: 5 do
+        execute "#{shared_path}/config/lendingbot_init.sh #{command}"
+      end
+    end
+  end
+
+end
+
+# Automatically restart after a deploy
+after 'deploy', 'deploy:restart'

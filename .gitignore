@@ -1,1 +1,4 @@
 config/secrets.yml
+log
+config/duckdns.sh
+config/default.cfg

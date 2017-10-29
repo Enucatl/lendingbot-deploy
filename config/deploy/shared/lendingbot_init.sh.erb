@@ -1,0 +1,38 @@
+#!/bin/sh
+
+APP_ROOT=<%= current_path %>
+PID=$APP_ROOT/tmp/pids/lendingbot.pid
+LOG=$APP_ROOT/tmp/logs/lendingbot.log
+CMD="(python $APP_ROOT/lendingbot.py -c $APP_ROOT/config/default.cfg) &"
+set -u
+
+sig () {
+  test -s "$PID" && kill -$1 `cat $PID`
+}
+
+case "$1" in
+  start)
+    sig 0 && echo >&2 "Already Running" && exit 0
+    eval $CMD
+    echo $! > $PID
+    ;;
+  stop)
+    if test -s $PID && kill -0 `cat $PID`
+    then
+        echo "stopped"
+    else
+        echo "not running"
+    fi
+    ;;
+  restart|reload)
+    if test -s $PID && kill -0 `cat $PID`
+    then
+      echo "stopped"
+    fi
+    eval $CMD
+    ;;
+  *)
+    echo >&2 "Usage: $0 <start|stop|restart>"
+    exit 1
+    ;;
+esac

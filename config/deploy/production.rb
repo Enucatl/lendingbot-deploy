@@ -4,11 +4,11 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-host = YAML.load_file("config/secrets.yml")["development"]["droplet_ip"]
 
-role :app, "trader@#{host}"
-role :web, "trader@#{host}"
-role :db,  "trader@#{host}"
+user = ENV["USER"]
+host = YAML.load_file("config/secrets.yml")[:digitalocean]["droplet_ip"]
+
+role :app, "#{user}@#{host}"
 
 # Extended Server Syntax
 # ======================
