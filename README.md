@@ -1,5 +1,5 @@
 # droplet-setup
-install all the requirements to run the trading server
+install all the requirements to run the lendingbot (https://github.com/BitBotFactory/poloniexlendingbot)
 
 # lifecycle
 ```bash
