@@ -3,7 +3,7 @@
 APP_ROOT=<%= current_path %>
 PID=$APP_ROOT/tmp/pids/lendingbot.pid
 LOG=$APP_ROOT/tmp/logs/lendingbot.log
-CMD="(python $APP_ROOT/lendingbot.py -c $APP_ROOT/config/default.cfg) &"
+CMD="(nohup python $APP_ROOT/lendingbot.py -c $APP_ROOT/config/default.cfg &> $LOG) &"
 set -u
 
 sig () {

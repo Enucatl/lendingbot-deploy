@@ -7,31 +7,15 @@ ssh_authorized_key { 'ssh_key':
   type => 'rsa',
 }
 
-package { 'screen':
-  ensure => present,
-}
-
-package { 'python-requests':
-  ensure => present,
-}
-
-package { 'python-numpy':
-  ensure => present,
-}
-
-package { 'python-hypothesis':
-  ensure => present,
-}
-
-package { 'python-pip':
-  ensure => present,
-}
-
-package { 'python-tz':
-  ensure => present,
-}
-
-package { 'fail2ban':
+package { [
+  'screen', 
+  'python-requests',
+  'python-numpy',
+  'python-hypothesis',
+  'python-pip',
+  'python-tz',
+  'fail2ban',
+]:
   ensure => present,
 }
 
@@ -82,13 +66,24 @@ class { 'ssh::server':
 
 include apt
 
-include pyenv
-
 class{"nginx":
     manage_repo => true,
     package_source => 'nginx-mainline'
 }
 
+nginx::resource::server{'enucatllendingbot.duckdns.org':
+}
+
+nginx::resource::location{ "/${user}/":
+  proxy => "http://upstream_${user}/" ,
+  server => 'enucatllendingbot.duckdns.org'
+}
+
+nginx::resource::upstream { "upstream_${user}":
+  members => [
+    '127.0.0.1:8000',
+  ],
+}
 cron::hourly { 'duckdns_hourly':
   user        => $user,
   command     => '~/duckdns.sh > /dev/null 2>&1',
