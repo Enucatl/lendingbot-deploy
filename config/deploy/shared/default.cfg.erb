@@ -24,7 +24,7 @@ sleeptimeactive = 60
 
 #Sleeps between inactive iterations, time in seconds (1-3600)
 #Set to the same value as sleeptimeactive to disable
-sleeptimeinactive = 1800
+sleeptimeinactive = 300
 
 #Timeout in seconds, the bot shall wait for a response during each request
 #timeout = 30
@@ -52,7 +52,7 @@ gaptop = 200
 #If set to 0 all offers will be placed for a 2 day period (0.003-5)
 # Poloniex max lending period: 60 days
 # Bitfinex max lending period: 30 days
-xdaythreshold = 0.11
+xdaythreshold = 0.80
 xdays = 30
 #When xdayspread is set, lending days will be incremented linear from 2 days at (xdaythreshold/xdayspread) lent rate
 #to (xdays) days at (xdaythreshold) lent rate. (0-10)
@@ -116,7 +116,7 @@ startWebServer = true
 #0.0.0.0 will point to your default IP (Local IP on LAN as well as localhost), set to 127.0.0.1 if you want it to be only accessible by host computer.
 #Do not set to a reserved port
 #Advanced users only.
-customWebServerAddress = 0.0.0.0
+customWebServerAddress = 127.0.0.1
 customWebServerPort = 8000
 
 #Customize or select the desired template for the webserver. Default to 'www'.
